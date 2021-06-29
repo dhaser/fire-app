@@ -15,7 +15,8 @@ export default function Home() {
     const defaultContributionFreq = "Monthly";
     const defaultPreRetROR = 4;
     const defaultPostRetROR = 4;
-    const defaultInflation = 0;
+    const defaultInflation = 1.84;
+    const defaultTaxRate = 27.82;
 
     // Access localStorage
     const initialRetirementAge = Number(localStorage.getItem("retirementAge") || defaultRetirementAge)
@@ -28,9 +29,7 @@ export default function Home() {
     const initialPreRetROR = Number(localStorage.getItem("preRetROR") || defaultPreRetROR)
     const initialPostRetROR = Number(localStorage.getItem("postRetROR") || defaultPostRetROR)
     const initialInflation = Number(localStorage.getItem("inflation") || defaultInflation)
-
-
-    const [renderClientSideComponent, setRenderClientSideComponent] = useState(false)
+    const initialTaxRate = Number(localStorage.getItem("taxRate") || defaultTaxRate)
 
     const [retirementAge, setRetirementAge] = useState(initialRetirementAge)
     const [targetRetAmt, setTargetRetAmt] = useState(initialTargetRetAmt)
@@ -42,6 +41,7 @@ export default function Home() {
     const [preRetROR, setPreRetROR] = useState(initialPreRetROR)
     const [postRetROR, setPostRetROR] = useState(initialPostRetROR)
     const [inflation, setInflation] = useState(initialInflation)
+    const [taxRate, setTaxRate] = useState(initialTaxRate)
 
     const [currentSavingsPercent, setCurrentSavingsPercent] = useState("0%")
 
@@ -57,21 +57,36 @@ export default function Home() {
       setPreRetROR(defaultPreRetROR);
       setPostRetROR(defaultPostRetROR);
       setInflation(defaultInflation);
+      setTaxRate(defaultTaxRate);
     }
 
     const calcRetirementAge = (updatedTargetRetAmt) => {
-      console.log('start calcRetirementAge ...')
+      // console.log('start calcRetirementAge ...')
       const netPreRetROR = (preRetROR - inflation) / 100;
       let currBal = currentSavings;
       const annualCont = contributionFreq === "Annually" ? contributions : contributions * 12;
       let retAge = currentAge;
 
-      console.log("currBal: ", currBal)
-      console.log("updatedTargetRetAmt: ", updatedTargetRetAmt)
+      //console.log("currBal before: ", currBal)
+      //console.log("annualCont: ", annualCont)
+      //console.log("taxRate: ", taxRate)
+      //console.log("updatedTargetRetAmt: ", updatedTargetRetAmt)
       while (currBal < updatedTargetRetAmt) {
-        currBal = annualCont + currBal * (1 + netPreRetROR);
+        //console.log("annualCont: ", annualCont)
+        //console.log("currBal in: ", currBal)
+
+        //console.log('tax: ', currBal * netPreRetROR * (taxRate * 100 / 10000))
+        //console.log("zins: ", currBal * netPreRetROR - currBal * netPreRetROR * (taxRate * 100 / 10000))
+
+
+        currBal = annualCont + currBal * (1 + netPreRetROR) - currBal * netPreRetROR * (taxRate * 100 / 10000);
+        //console.log("currBal in after: ", currBal);
+        //currBal = _currBal * (1 - taxRate * 100 / 10000);
+
+        //console.log("currBal inside after tax: ", currBal);
+
         retAge += 1;
-        console.log("currBal inside: ", currBal);
+
 
         if (retAge > 200) break;
 
@@ -91,25 +106,27 @@ export default function Home() {
       localStorage.setItem("preRetROR", preRetROR);
       localStorage.setItem("postRetROR", postRetROR);
       localStorage.setItem("inflation", inflation);
+      localStorage.setItem("taxRate", taxRate);
 
       // improve
       // annualRetExp <= targetRetAmt * NetRateOfReturn
       let netPostRetROR = (postRetROR - inflation) / 100;
       if (netPostRetROR === 0) netPostRetROR = 0.000001;
 
-      let updatedTargetRetAmt = annualRetExp / netPostRetROR;
+      let updatedTargetRetAmt = annualRetExp * (1 + taxRate / 100) / netPostRetROR;
+      // x * (1 - taxRate / 100) = 
       setTargetRetAmt(updatedTargetRetAmt);
 
       const retAge = calcRetirementAge(updatedTargetRetAmt);
       setRetirementAge(retAge);
 
-      console.log(currentSavings)
-      console.log(updatedTargetRetAmt)
+      //console.log(currentSavings)
+      //console.log(updatedTargetRetAmt)
       let currSavPer = parseInt(parseInt(currentSavings) / parseInt(updatedTargetRetAmt) * 100) + '%'
-      console.log(currSavPer)
+      //console.log(currSavPer)
       setCurrentSavingsPercent(currSavPer)
 
-    }, [annualRetExp, currentAge, currentSavings, contributions, contributionFreq, preRetROR, postRetROR, inflation]);
+    }, [annualRetExp, currentAge, currentSavings, contributions, contributionFreq, preRetROR, postRetROR, inflation, taxRate]);
 
     return (
       <div className={styles.container}>
@@ -215,35 +232,28 @@ export default function Home() {
                 <label htmlFor="postRetROR" className="form-label">Rendite Auszahlzeit</label>
                 <input type="number" value={postRetROR} onChange={(e) => setPostRetROR(parseInt(e.target.value) || 0)} className="form-control" id="postRetROR" aria-describedby="postRetRORHelp" />
               </div>*/}
-              <div className="mb-3">
+              <div className="input-group mb-3">
+                <label htmlFor="inflation" className="input-group-text">Inflationsrate</label>
+                <input type="number" value={inflation} onChange={(e) => setInflation(parseFloat(e.target.value) || 0)} className="form-control" id="inflation" aria-describedby="inflationHelp" />
+                <label htmlFor="taxRate" className="input-group-text">Steuersatz der Abgeltungssteuer</label>
+                <input type="number" value={taxRate} onChange={(e) => setTaxRate(parseFloat(e.target.value) || 0)} className="form-control" id="taxRate" aria-describedby="taxRateHelp" />
+              </div>
+              {/*<div className="mb-3">
                 <label htmlFor="inflation" className="form-label">Inflationsrate</label>
                 <input type="number" value={inflation} onChange={(e) => setInflation(parseInt(e.target.value) || 0)} className="form-control" id="inflation" aria-describedby="inflationHelp" />
-                {/*<div id="inflationHelp" className="form-text">Geplante jährlcihe Ausgaben in der Auszahlungszeit</div>*/}
-              </div>
+              </div>*/}
               <button type="button" onClick={() => resetInput()} className="btn btn-outline-warning btn-sm">Reset <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
                 <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z" />
               </svg></button>
             </form>
-
+            <p>Alle Ausgaben ohne Gewähr!</p>
           </div>
 
 
-          <div style={{ width: '70vw', marginTop: '3em', borderTop: '1px solid rgba(0,0,0,.125)' }}>
-            <h3>Wissenswertes
-            </h3>
+          <div style={{ width: '70vw', marginTop: '3em' }}>
+            <h2 style={{ color: '#0070f3', borderBottom: '1px solid #0070f3' }}>Wissenswertes</h2>
 
             <ul className="list-group list-group-flush">
-              <li className="list-group-item">
-                <h4>
-                  Welche 3 Komponenten sind maßgeblich?
-                </h4>
-                <ol>
-                  <li>Grundlage ist das Geld verdienen</li>
-                  <li>Ein Teil des Verdienten muss daraufhin gespart werden</li>
-                  <li>Gespartes Geld muss dann gewinnbringend investiert werden</li>
-                </ol>
-              </li>
-
               <li className="list-group-item">
                 <h4>
                   Wie kann ich das für meine finanzielle Freiheit benötigte Kapital erwirtschaften?

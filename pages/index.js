@@ -129,7 +129,7 @@ export default function Home() {
     }, [annualRetExp, currentAge, currentSavings, contributions, contributionFreq, preRetROR, postRetROR, inflation, taxRate]);
 
     return (
-      <div className={styles.container}>
+      <div className={styles.container} style={{ backgroundColor: '#fff' }}>
         <Head>
           <title>Create Next App</title>
           <link rel="icon" href="/favicon.ico" />
@@ -137,32 +137,34 @@ export default function Home() {
           <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
         </Head>
 
-        <main className={styles.main}>
-          <h1 className={styles.title}>
-            Finanzielle Freiheit
-          </h1>
+        <main className={styles.main} style={{}}>
 
-          <p className={styles.description} >
-            Unter dem Begriff "Finanzielle Freiheit" oder "Finanzielle Unabhängigkeit" wird ein Zustand verstanden, in dem es möglich ist, seinen Lebensunterhalt zu bestreiten, ohne dabei auf Erwerbseinkommen - insbesondere solches aus abhängiger Beschäftigung - angewiesen zu sein.
-          </p>
+          <div style={{ justifyContent: 'center', alignItems: 'center', margin: '1rem 3rem', padding: '2rem 0', backgroundColor: '#efefef', borderRadius: '15px' }}>
+            <h1 className={styles.title}>
+              Finanzielle Freiheit
+            </h1>
 
-          <div className="result-blockquote">
-            <h2>Alter: <span className="badge rounded-pill bg-success">{retirementAge}</span></h2>
-            <h2>Vermögen: <span className="badge rounded-pill bg-light text-dark">{formatter.format(targetRetAmt)}</span></h2>
+            <p className={styles.description} >
+              Unter dem Begriff "Finanzielle Freiheit" oder "Finanzielle Unabhängigkeit" wird ein Zustand verstanden, in dem es möglich ist, seinen Lebensunterhalt zu bestreiten, ohne dabei auf Erwerbseinkommen - insbesondere solches aus abhängiger Beschäftigung - angewiesen zu sein.
+            </p>
 
-            <div style={{ width: '72vw' }}>
-              <h5 style={{ textAlign: 'left' }}>Ziel</h5>
-              <div className="progress" style={{ width: '100%' }}>
+            <div className="result-blockquote" section="calc">
+              <h2>Alter: <span className="badge rounded-pill bg-success">{retirementAge}</span></h2>
+              <h2>Vermögen: <span className="badge rounded-pill bg-warning text-dark">{formatter.format(targetRetAmt)}</span></h2>
 
-                <div className="progress-bar" role="progressbar" style={{ width: currentSavingsPercent }} >{currentSavingsPercent}</div> {/*aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"*/}
+              <div style={{ width: '94%', margin: '0 3%' }}>
+                <h5 style={{ textAlign: 'left' }}>Ziel</h5>
+                <div className="progress" style={{ width: '100%' }}>
+
+                  <div className="progress-bar" role="progressbar" style={{ width: currentSavingsPercent }} >{currentSavingsPercent}</div> {/*aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"*/}
+                </div>
               </div>
             </div>
-          </div>
 
 
 
-          <div className={styles.grid} style={{ width: "80vw" }}>
-            <form style={{ width: "100%" }}>
+            {/*<div style={{ width: "80vw" }}>*/}{/*className={styles.grid}*/}
+            <form style={{ width: "90vw", padding: '2rem 5vw' }}>
               <div className="mb-3">
                 <label htmlFor="annualRetExp" className="form-label">Erwartete jährliche Ausgaben</label>
                 <input type="number" value={annualRetExp} onChange={(e) => setAnnualRetExp(parseInt(e.target.value) || 0)} className="form-control" id="annualRetExp" aria-describedby="annualRetExpHelp" />
@@ -235,7 +237,7 @@ export default function Home() {
               <div className="input-group mb-3">
                 <label htmlFor="inflation" className="input-group-text">Inflationsrate</label>
                 <input type="number" value={inflation} onChange={(e) => setInflation(parseFloat(e.target.value) || 0)} className="form-control" id="inflation" aria-describedby="inflationHelp" />
-                <label htmlFor="taxRate" className="input-group-text">Steuersatz der Abgeltungssteuer</label>
+                <label htmlFor="taxRate" className="input-group-text">Steuersatz</label>
                 <input type="number" value={taxRate} onChange={(e) => setTaxRate(parseFloat(e.target.value) || 0)} className="form-control" id="taxRate" aria-describedby="taxRateHelp" />
               </div>
               {/*<div className="mb-3">
@@ -246,9 +248,9 @@ export default function Home() {
                 <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z" />
               </svg></button>
             </form>
-            <p>Alle Ausgaben ohne Gewähr!</p>
+            <p style={{ textAlign: 'center' }}>Alle Ausgaben ohne Gewähr!</p>
+            {/*</div>*/}
           </div>
-
 
           <div style={{ width: '70vw', marginTop: '3em' }}>
             <h2 style={{ color: '#0070f3', borderBottom: '1px solid #0070f3' }}>Wissenswertes</h2>
@@ -281,7 +283,6 @@ export default function Home() {
             </ul>
           </div>
 
-
           {/*<div className={styles.grid}>
             <a href="https://nextjs.org/docs" className={styles.card}>
               <h3>Documentation &rarr;</h3>
@@ -308,13 +309,27 @@ export default function Home() {
         </footer>
         <style jsx>{`
           .result-blockquote {
+            width: 80%;
+            margin: 0 10%;
             text-align: center;
-            border: 2px solid #b3b3b3;
+            /*border: 2px solid #b3b3b3;*/
             padding: 15px;
             border-radius: 25px;
+            background-color: rgb(43, 37, 110);
+            color: #f2f1fb;
+            box-shadow: 10px 10px 59px -7px rgba(0,0,0,0.75);
           }
           @media (max-width: 600px) {
-          
+            .result-blockquote {
+              width: 96%;
+              margin: 0 2%;
+            }
+            .input-group input {
+              min-width: 100px;
+            }
+            .input-group select {
+              min-width: 100px;
+            }
           }  
         `}</style>
       </div >

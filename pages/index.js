@@ -1,5 +1,8 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
+
+import Cookie from '../components/cookie'
 
 import React, { useState, useEffect } from 'react'
 
@@ -137,9 +140,11 @@ export default function Home() {
           <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
         </Head>
 
+        <Cookie />
+
         <main className={styles.main} style={{}}>
 
-          <div style={{ justifyContent: 'center', alignItems: 'center', margin: '1rem 3rem', padding: '2rem 0', backgroundColor: '#efefef', borderRadius: '15px' }}>
+          <div className="content" style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#efefef', borderRadius: '15px' }}>
             <h1 className={styles.title}>
               Finanzielle Freiheit
             </h1>
@@ -148,18 +153,20 @@ export default function Home() {
               Unter dem Begriff "Finanzielle Freiheit" oder "Finanzielle Unabhängigkeit" wird ein Zustand verstanden, in dem es möglich ist, seinen Lebensunterhalt zu bestreiten, ohne dabei auf Erwerbseinkommen - insbesondere solches aus abhängiger Beschäftigung - angewiesen zu sein.
             </p>
 
-            <div className="result-blockquote" section="calc">
-              <h2>Alter: <span className="badge rounded-pill bg-success">{retirementAge}</span></h2>
-              <h2>Vermögen: <span className="badge rounded-pill bg-warning text-dark">{formatter.format(targetRetAmt)}</span></h2>
+            <section id="calc" style={{ paddingTop: '15px' }}>
+              <div className="result-blockquote">
+                <h2>Alter: <span className="badge rounded-pill bg-success">{retirementAge}</span></h2>
+                <h2>Vermögen: <span className="badge rounded-pill bg-warning text-dark">{formatter.format(targetRetAmt)}</span></h2>
 
-              <div style={{ width: '94%', margin: '0 3%' }}>
-                <h5 style={{ textAlign: 'left' }}>Ziel</h5>
-                <div className="progress" style={{ width: '100%' }}>
+                <div style={{ width: '94%', margin: '0 3%' }}>
+                  <h5 style={{ textAlign: 'left' }}>Ziel</h5>
+                  <div className="progress" style={{ width: '100%' }}>
 
-                  <div className="progress-bar" role="progressbar" style={{ width: currentSavingsPercent }} >{currentSavingsPercent}</div> {/*aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"*/}
+                    <div className="progress-bar" role="progressbar" style={{ width: currentSavingsPercent }} >{currentSavingsPercent}</div> {/*aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"*/}
+                  </div>
                 </div>
               </div>
-            </div>
+            </section>
 
 
 
@@ -281,7 +288,12 @@ export default function Home() {
                 <p>Insgesamt sollte man als Erstes überlegen, was finanzielle Freiheit für das eigene Leben bedeutet und wie wichtig diese einem ist. Zudem ist es wichtig, sich klare Ziele zu setzen, damit man weiß wohin die Reise gehen soll.</p>
               </li>
             </ul>
+            <p>
+              Alle Texte sowie die Hinweise und Informationen stellen keine Anlageberatung oder Empfehlung dar. Sie wurden nach bestem Wissen und Gewissen aus öffentlich zugänglichen Quellen übernommen. Alle zur Verfügung gestellten Informationen (alle Gedanken, Prognosen, Kommentare, Hinweise, Ratschläge etc.) dienen allein der Bildung und der privaten Unterhaltung.
+              Eine Haftung für die Richtigkeit kann in jedem Einzelfall trotzdem nicht übernommen werden. Sollten die Besucher dieser Seite sich die angebotenen Inhalte zu eigen machen oder etwaigen Ratschlägen folgen, so handeln sie eigenverantwortlich.
+            </p>
           </div>
+
 
           {/*<div className={styles.grid}>
             <a href="https://nextjs.org/docs" className={styles.card}>
@@ -297,15 +309,26 @@ export default function Home() {
             </div>*/}
         </main>
 
-        <footer className={styles.footer}>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Powered by{' '}
-            <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-          </a>
+        <footer className="footer">
+          <div>
+            <Link href="/legal/privacy-policy">
+              <a>Datenschutz</a>
+            </Link>
+            {' '}
+            <Link href="/legal/terms">
+              <a>Impressum</a>
+            </Link>
+          </div>
+          <div>
+            <a
+              href="https://dennis-haser.de"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Powered by{' '}
+              <img src="https://dennis-haser.de/img/logo.webp" alt="Webschmiede Logo" className="logo" />
+            </a>
+          </div>
         </footer>
         <style jsx>{`
           .result-blockquote {
@@ -335,7 +358,7 @@ export default function Home() {
       </div >
     )
   } else {
-    return <div>Server</div>
+    return <div><div><p>Server</p></div></div>
   }
 
 }

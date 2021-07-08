@@ -11,10 +11,10 @@ export default function Home() {
 
     const defaultRetirementAge = 100;
     const defaultTargetRetAmt = 0;
-    const defaultAnnualRetExp = 10000;
+    const defaultAnnualRetExp = 2000;
     const defaultCurrentAge = 35;
     const defaultCurrentSavings = 10000;
-    const defaultContributions = 500;
+    const defaultContributions = 400;
     const defaultContributionFreq = "Monthly";
     const defaultPreRetROR = 4;
     const defaultPostRetROR = 4;
@@ -134,7 +134,7 @@ export default function Home() {
     return (
       <div className={styles.container} style={{ backgroundColor: '#fff' }}>
         <Head>
-          <title>Create Next App</title>
+          <title>F.I.R.E.</title>
           <link rel="icon" href="/favicon.ico" />
 
           <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
@@ -146,11 +146,11 @@ export default function Home() {
 
           <div className="content" style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#efefef', borderRadius: '15px' }}>
             <h1 className={styles.title}>
-              Finanzielle Freiheit
+              Sei auch du finanziell frei
             </h1>
 
             <p className={styles.description} >
-              Unter dem Begriff "Finanzielle Freiheit" oder "Finanzielle Unabhängigkeit" wird ein Zustand verstanden, in dem es möglich ist, seinen Lebensunterhalt zu bestreiten, ohne dabei auf Erwerbseinkommen - insbesondere solches aus abhängiger Beschäftigung - angewiesen zu sein.
+              "Finanzielle Freiheit" oder "Finanzielle Unabhängigkeit" verfolgt das Ziel, seinen Lebensunterhalt zu bestreiten, ohne dabei auf Erwerbseinkommen angewiesen zu sein. Dafür wird primär auf passives Einkommen vorallem am Aktienmarkt zurückgegriffen.
             </p>
 
             <section id="calc" style={{ paddingTop: '15px' }}>
@@ -229,7 +229,7 @@ export default function Home() {
               <h4>Erweitert</h4>
               <div className="input-group mb-3">
                 <label htmlFor="preRetROR" className="input-group-text">Rendite Ansparzeit</label>
-                <input type="number" value={preRetROR} onChange={(e) => setPreRetROR(parseInt(e.target.value) || 0)} className="form-control" id="preRetROR" aria-describedby="preRetRORHelp" />
+                <input type="number" value={preRetROR} onChange={(e) => setPreRetROR(parseInt(e.target.value || 0))} className="form-control" id="preRetROR" aria-describedby="preRetRORHelp" />
                 <label htmlFor="postRetROR" className="input-group-text">Rendite Auszahlzeit</label>
                 <input type="number" value={postRetROR} onChange={(e) => setPostRetROR(parseInt(e.target.value) || 0)} className="form-control" id="postRetROR" aria-describedby="postRetRORHelp" />
               </div>
@@ -256,6 +256,7 @@ export default function Home() {
               </svg></button>
             </form>
             <p style={{ textAlign: 'center' }}>Alle Ausgaben ohne Gewähr!</p>
+            <p style={{ color: '#0070f3', fontFamily: '"Goudy Bookletter 1911", sans-serif', textAlign: 'center', fontSize: '1.5em' }}>100% anonym · 100% kostenlos · 100% ohne Werbung</p>
             {/*</div>*/}
           </div>
 
@@ -268,26 +269,33 @@ export default function Home() {
                   Wie kann ich das für meine finanzielle Freiheit benötigte Kapital erwirtschaften?
                 </h4>
                 <p>
-                  Es empfiehlt sich am Anfang, Teile des Arbeitseinkommens zu sparen. Je höher dabei die Sparrate ist, desto mehr Geld kannst du gewinnbringend in ETFs oder Aktien investieren und vom Zinseszinseffekt profitieren.
+                  Es beginnt mit dem regelmäßigen Sparen von Teilen des Arbeitseinkommens. Je höher dabei die Sparrate ist, desto mehr Geld kann (hoffentlich) gewinnbringend in ETFs oder Aktien investiert und so nach und nach vom Zinseszinseffekt profitiert werden.
                 </p>
               </li>
-              <li className="list-group-item">
-                <h4>Welche Einkünfte gehören zu den Einkünften aus Kapitalvermögen? </h4>
+              {/*<li className="list-group-item">
+                <h4>
+                  Welche Einkünfte gehören zu den Einkünften aus Kapitalvermögen?
+                  </h4>
                 <p>Unter anderem zählen dazu: Dividenden, Zinserträge, Mieteinnahmen, Zahlungen aus Lebensversicherungen, Unternehmensbeteiligungen und alle sonstigen Kapitalerträge.</p>
+            </li>*/}
+              <li className="list-group-item">
+                <h4>
+                  Muss passives Einkommen versteuert werden?
+                </h4>
+                <p>
+                  Ja, in Deutschland wird passives Einkommen versteuert. Im Vergleich zu anderen Steuerarten ist die Versteuerung jedoch pauschal unabhängig der höhe der Einkünfte und es gibt einen Steuerfreibetrag, für welchen keine Steuer fällig wird.
+                </p>
               </li>
               <li className="list-group-item">
                 <h4>
-                  Wird passives Einkommen versteuert?
+                  Zielsetzung
                 </h4>
                 <p>
-                  Ja, auch passives Einkommen wird in Deutschland versteuert, es sein denn es ist so gering, dass es unter dem aktuell gültigen Steuerfreibetrag bleibt.
+                  Zuerst sollte sich jeder darüber Gedanken machen, was finanzielle Freiheit für einen selbst bedeutet. Anschließend sollte anhand verschiedener Rechenbeispiele ein klares Ziele gesetzt werden, auf welches zukünftig hingearbeitet wird.
                 </p>
               </li>
-              <li className="list-group-item">
-                <h4>Zielsetzung</h4>
-                <p>Insgesamt sollte man als Erstes überlegen, was finanzielle Freiheit für das eigene Leben bedeutet und wie wichtig diese einem ist. Zudem ist es wichtig, sich klare Ziele zu setzen, damit man weiß wohin die Reise gehen soll.</p>
-              </li>
             </ul>
+            <br />
             <p>
               Alle Texte sowie die Hinweise und Informationen stellen keine Anlageberatung oder Empfehlung dar. Sie wurden nach bestem Wissen und Gewissen aus öffentlich zugänglichen Quellen übernommen. Alle zur Verfügung gestellten Informationen (alle Gedanken, Prognosen, Kommentare, Hinweise, Ratschläge etc.) dienen allein der Bildung und der privaten Unterhaltung.
               Eine Haftung für die Richtigkeit kann in jedem Einzelfall trotzdem nicht übernommen werden. Sollten die Besucher dieser Seite sich die angebotenen Inhalte zu eigen machen oder etwaigen Ratschlägen folgen, so handeln sie eigenverantwortlich.
@@ -314,7 +322,7 @@ export default function Home() {
             <Link href="/legal/privacy-policy">
               <a>Datenschutz</a>
             </Link>
-            {' '}
+            {' · '}
             <Link href="/legal/terms">
               <a>Impressum</a>
             </Link>
